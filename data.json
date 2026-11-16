@@ -1,0 +1,802 @@
+[
+  {
+    "id": 1001,
+    "date": "2026-11-01",
+    "product": "Laptop",
+    "category": "Electronics",
+    "revenue": 65000,
+    "status": "Completed"
+  },
+  {
+    "id": 1002,
+    "date": "2026-11-02",
+    "product": "Bookshelf",
+    "category": "Furniture",
+    "revenue": 23000,
+    "status": "Pending"
+  },
+  {
+    "id": 1003,
+    "date": "2026-11-03",
+    "product": "Desk Lamp",
+    "category": "Home",
+    "revenue": 3200,
+    "status": "Completed"
+  },
+  {
+    "id": 1004,
+    "date": "2026-11-04",
+    "product": "Desk",
+    "category": "Furniture",
+    "revenue": 25000,
+    "status": "Completed"
+  },
+  {
+    "id": 1005,
+    "date": "2026-11-05",
+    "product": "Water Bottle",
+    "category": "Accessories",
+    "revenue": 800,
+    "status": "Completed"
+  },
+  {
+    "id": 1006,
+    "date": "2026-11-06",
+    "product": "Desk",
+    "category": "Furniture",
+    "revenue": 34000,
+    "status": "Completed"
+  },
+  {
+    "id": 1007,
+    "date": "2026-11-07",
+    "product": "Water Bottle",
+    "category": "Accessories",
+    "revenue": 1600,
+    "status": "Completed"
+  },
+  {
+    "id": 1008,
+    "date": "2026-11-08",
+    "product": "Office Chair",
+    "category": "Furniture",
+    "revenue": 22000,
+    "status": "Completed"
+  },
+  {
+    "id": 1009,
+    "date": "2026-11-09",
+    "product": "Jacket",
+    "category": "Fashion",
+    "revenue": 9500,
+    "status": "Completed"
+  },
+  {
+    "id": 1010,
+    "date": "2026-11-10",
+    "product": "Keyboard",
+    "category": "Electronics",
+    "revenue": 2500,
+    "status": "Completed"
+  },
+  {
+    "id": 1011,
+    "date": "2026-11-11",
+    "product": "Jacket",
+    "category": "Fashion",
+    "revenue": 15000,
+    "status": "Pending"
+  },
+  {
+    "id": 1012,
+    "date": "2026-11-12",
+    "product": "Keyboard",
+    "category": "Electronics",
+    "revenue": 6500,
+    "status": "Completed"
+  },
+  {
+    "id": 1013,
+    "date": "2026-11-13",
+    "product": "T-Shirt",
+    "category": "Fashion",
+    "revenue": 2500,
+    "status": "Completed"
+  },
+  {
+    "id": 1014,
+    "date": "2026-11-14",
+    "product": "Monitor",
+    "category": "Electronics",
+    "revenue": 25000,
+    "status": "Cancelled"
+  },
+  {
+    "id": 1015,
+    "date": "2026-11-15",
+    "product": "Backpack",
+    "category": "Fashion",
+    "revenue": 3000,
+    "status": "Completed"
+  },
+  {
+    "id": 1016,
+    "date": "2026-11-16",
+    "product": "Monitor",
+    "category": "Electronics",
+    "revenue": 42000,
+    "status": "Completed"
+  },
+  {
+    "id": 1017,
+    "date": "2026-11-17",
+    "product": "Backpack",
+    "category": "Fashion",
+    "revenue": 5500,
+    "status": "Pending"
+  },
+  {
+    "id": 1018,
+    "date": "2026-11-18",
+    "product": "Smart Watch",
+    "category": "Electronics",
+    "revenue": 11000,
+    "status": "Completed"
+  },
+  {
+    "id": 1019,
+    "date": "2026-11-19",
+    "product": "Running Shoes",
+    "category": "Fashion",
+    "revenue": 6500,
+    "status": "Completed"
+  },
+  {
+    "id": 1020,
+    "date": "2026-11-20",
+    "product": "Headphones",
+    "category": "Electronics",
+    "revenue": 6200,
+    "status": "Completed"
+  },
+  {
+    "id": 1021,
+    "date": "2026-11-21",
+    "product": "Running Shoes",
+    "category": "Fashion",
+    "revenue": 9500,
+    "status": "Completed"
+  },
+  {
+    "id": 1022,
+    "date": "2026-11-22",
+    "product": "Headphones",
+    "category": "Electronics",
+    "revenue": 5500,
+    "status": "Completed"
+  },
+  {
+    "id": 1023,
+    "date": "2026-11-23",
+    "product": "Sofa",
+    "category": "Furniture",
+    "revenue": 55000,
+    "status": "Completed"
+  },
+  {
+    "id": 1024,
+    "date": "2026-11-24",
+    "product": "Laptop",
+    "category": "Electronics",
+    "revenue": 65000,
+    "status": "Completed"
+  },
+  {
+    "id": 1025,
+    "date": "2026-11-25",
+    "product": "Bookshelf",
+    "category": "Furniture",
+    "revenue": 23000,
+    "status": "Completed"
+  },
+  {
+    "id": 1026,
+    "date": "2026-11-26",
+    "product": "Laptop",
+    "category": "Electronics",
+    "revenue": 85000,
+    "status": "Pending"
+  },
+  {
+    "id": 1027,
+    "date": "2026-11-27",
+    "product": "Bookshelf",
+    "category": "Furniture",
+    "revenue": 15000,
+    "status": "Completed"
+  },
+  {
+    "id": 1028,
+    "date": "2026-11-28",
+    "product": "Desk Lamp",
+    "category": "Home",
+    "revenue": 1800,
+    "status": "Completed"
+  },
+  {
+    "id": 1029,
+    "date": "2026-11-29",
+    "product": "Desk",
+    "category": "Furniture",
+    "revenue": 18000,
+    "status": "Cancelled"
+  },
+  {
+    "id": 1030,
+    "date": "2026-11-30",
+    "product": "Water Bottle",
+    "category": "Accessories",
+    "revenue": 2000,
+    "status": "Completed"
+  },
+  {
+    "id": 1031,
+    "date": "2026-11-01",
+    "product": "Desk",
+    "category": "Furniture",
+    "revenue": 29000,
+    "status": "Completed"
+  },
+  {
+    "id": 1032,
+    "date": "2026-11-02",
+    "product": "Water Bottle",
+    "category": "Accessories",
+    "revenue": 1200,
+    "status": "Pending"
+  },
+  {
+    "id": 1033,
+    "date": "2026-11-03",
+    "product": "Office Chair",
+    "category": "Furniture",
+    "revenue": 14000,
+    "status": "Completed"
+  },
+  {
+    "id": 1034,
+    "date": "2026-11-04",
+    "product": "Jacket",
+    "category": "Fashion",
+    "revenue": 15000,
+    "status": "Completed"
+  },
+  {
+    "id": 1035,
+    "date": "2026-11-05",
+    "product": "Keyboard",
+    "category": "Electronics",
+    "revenue": 6500,
+    "status": "Completed"
+  },
+  {
+    "id": 1036,
+    "date": "2026-11-06",
+    "product": "Jacket",
+    "category": "Fashion",
+    "revenue": 12000,
+    "status": "Completed"
+  },
+  {
+    "id": 1037,
+    "date": "2026-11-07",
+    "product": "Keyboard",
+    "category": "Electronics",
+    "revenue": 4500,
+    "status": "Completed"
+  },
+  {
+    "id": 1038,
+    "date": "2026-11-08",
+    "product": "T-Shirt",
+    "category": "Fashion",
+    "revenue": 1500,
+    "status": "Completed"
+  },
+  {
+    "id": 1039,
+    "date": "2026-11-09",
+    "product": "Monitor",
+    "category": "Electronics",
+    "revenue": 42000,
+    "status": "Completed"
+  },
+  {
+    "id": 1040,
+    "date": "2026-11-10",
+    "product": "Backpack",
+    "category": "Fashion",
+    "revenue": 5500,
+    "status": "Completed"
+  },
+  {
+    "id": 1041,
+    "date": "2026-11-11",
+    "product": "Monitor",
+    "category": "Electronics",
+    "revenue": 32000,
+    "status": "Pending"
+  },
+  {
+    "id": 1042,
+    "date": "2026-11-12",
+    "product": "Backpack",
+    "category": "Fashion",
+    "revenue": 3000,
+    "status": "Completed"
+  },
+  {
+    "id": 1043,
+    "date": "2026-11-13",
+    "product": "Smart Watch",
+    "category": "Electronics",
+    "revenue": 9000,
+    "status": "Completed"
+  },
+  {
+    "id": 1044,
+    "date": "2026-11-14",
+    "product": "Running Shoes",
+    "category": "Fashion",
+    "revenue": 11000,
+    "status": "Cancelled"
+  },
+  {
+    "id": 1045,
+    "date": "2026-11-15",
+    "product": "Headphones",
+    "category": "Electronics",
+    "revenue": 5500,
+    "status": "Completed"
+  },
+  {
+    "id": 1046,
+    "date": "2026-11-16",
+    "product": "Running Shoes",
+    "category": "Fashion",
+    "revenue": 8500,
+    "status": "Completed"
+  },
+  {
+    "id": 1047,
+    "date": "2026-11-17",
+    "product": "Headphones",
+    "category": "Electronics",
+    "revenue": 3500,
+    "status": "Pending"
+  },
+  {
+    "id": 1048,
+    "date": "2026-11-18",
+    "product": "Sofa",
+    "category": "Furniture",
+    "revenue": 72000,
+    "status": "Completed"
+  },
+  {
+    "id": 1049,
+    "date": "2026-11-19",
+    "product": "Laptop",
+    "category": "Electronics",
+    "revenue": 85000,
+    "status": "Completed"
+  },
+  {
+    "id": 1050,
+    "date": "2026-11-20",
+    "product": "Bookshelf",
+    "category": "Furniture",
+    "revenue": 19000,
+    "status": "Completed"
+  },
+  {
+    "id": 1051,
+    "date": "2026-11-21",
+    "product": "Laptop",
+    "category": "Electronics",
+    "revenue": 72000,
+    "status": "Completed"
+  },
+  {
+    "id": 1052,
+    "date": "2026-11-22",
+    "product": "Bookshelf",
+    "category": "Furniture",
+    "revenue": 12000,
+    "status": "Completed"
+  },
+  {
+    "id": 1053,
+    "date": "2026-11-23",
+    "product": "Desk Lamp",
+    "category": "Home",
+    "revenue": 4000,
+    "status": "Completed"
+  },
+  {
+    "id": 1054,
+    "date": "2026-11-24",
+    "product": "Desk",
+    "category": "Furniture",
+    "revenue": 29000,
+    "status": "Completed"
+  },
+  {
+    "id": 1055,
+    "date": "2026-11-25",
+    "product": "Water Bottle",
+    "category": "Accessories",
+    "revenue": 1200,
+    "status": "Completed"
+  },
+  {
+    "id": 1056,
+    "date": "2026-11-26",
+    "product": "Desk",
+    "category": "Furniture",
+    "revenue": 18000,
+    "status": "Pending"
+  },
+  {
+    "id": 1057,
+    "date": "2026-11-27",
+    "product": "Water Bottle",
+    "category": "Accessories",
+    "revenue": 800,
+    "status": "Completed"
+  },
+  {
+    "id": 1058,
+    "date": "2026-11-28",
+    "product": "Office Chair",
+    "category": "Furniture",
+    "revenue": 26000,
+    "status": "Completed"
+  },
+  {
+    "id": 1059,
+    "date": "2026-11-29",
+    "product": "Jacket",
+    "category": "Fashion",
+    "revenue": 12000,
+    "status": "Cancelled"
+  },
+  {
+    "id": 1060,
+    "date": "2026-11-30",
+    "product": "Keyboard",
+    "category": "Electronics",
+    "revenue": 4500,
+    "status": "Completed"
+  },
+  {
+    "id": 1061,
+    "date": "2026-11-01",
+    "product": "Jacket",
+    "category": "Fashion",
+    "revenue": 7000,
+    "status": "Completed"
+  },
+  {
+    "id": 1062,
+    "date": "2026-11-02",
+    "product": "Keyboard",
+    "category": "Electronics",
+    "revenue": 7500,
+    "status": "Pending"
+  },
+  {
+    "id": 1063,
+    "date": "2026-11-03",
+    "product": "T-Shirt",
+    "category": "Fashion",
+    "revenue": 3200,
+    "status": "Completed"
+  },
+  {
+    "id": 1064,
+    "date": "2026-11-04",
+    "product": "Monitor",
+    "category": "Electronics",
+    "revenue": 38000,
+    "status": "Completed"
+  },
+  {
+    "id": 1065,
+    "date": "2026-11-05",
+    "product": "Backpack",
+    "category": "Fashion",
+    "revenue": 4500,
+    "status": "Completed"
+  },
+  {
+    "id": 1066,
+    "date": "2026-11-06",
+    "product": "Monitor",
+    "category": "Electronics",
+    "revenue": 25000,
+    "status": "Completed"
+  },
+  {
+    "id": 1067,
+    "date": "2026-11-07",
+    "product": "Backpack",
+    "category": "Fashion",
+    "revenue": 6500,
+    "status": "Completed"
+  },
+  {
+    "id": 1068,
+    "date": "2026-11-08",
+    "product": "Smart Watch",
+    "category": "Electronics",
+    "revenue": 12000,
+    "status": "Completed"
+  },
+  {
+    "id": 1069,
+    "date": "2026-11-09",
+    "product": "Running Shoes",
+    "category": "Fashion",
+    "revenue": 8500,
+    "status": "Completed"
+  },
+  {
+    "id": 1070,
+    "date": "2026-11-10",
+    "product": "Headphones",
+    "category": "Electronics",
+    "revenue": 3500,
+    "status": "Completed"
+  },
+  {
+    "id": 1071,
+    "date": "2026-11-11",
+    "product": "Running Shoes",
+    "category": "Fashion",
+    "revenue": 6500,
+    "status": "Pending"
+  },
+  {
+    "id": 1072,
+    "date": "2026-11-12",
+    "product": "Headphones",
+    "category": "Electronics",
+    "revenue": 6200,
+    "status": "Completed"
+  },
+  {
+    "id": 1073,
+    "date": "2026-11-13",
+    "product": "Sofa",
+    "category": "Furniture",
+    "revenue": 65000,
+    "status": "Completed"
+  },
+  {
+    "id": 1074,
+    "date": "2026-11-14",
+    "product": "Laptop",
+    "category": "Electronics",
+    "revenue": 72000,
+    "status": "Cancelled"
+  },
+  {
+    "id": 1075,
+    "date": "2026-11-15",
+    "product": "Bookshelf",
+    "category": "Furniture",
+    "revenue": 12000,
+    "status": "Completed"
+  },
+  {
+    "id": 1076,
+    "date": "2026-11-16",
+    "product": "Laptop",
+    "category": "Electronics",
+    "revenue": 91000,
+    "status": "Completed"
+  },
+  {
+    "id": 1077,
+    "date": "2026-11-17",
+    "product": "Bookshelf",
+    "category": "Furniture",
+    "revenue": 19000,
+    "status": "Pending"
+  },
+  {
+    "id": 1078,
+    "date": "2026-11-18",
+    "product": "Desk Lamp",
+    "category": "Home",
+    "revenue": 3200,
+    "status": "Completed"
+  },
+  {
+    "id": 1079,
+    "date": "2026-11-19",
+    "product": "Desk",
+    "category": "Furniture",
+    "revenue": 25000,
+    "status": "Completed"
+  },
+  {
+    "id": 1080,
+    "date": "2026-11-20",
+    "product": "Water Bottle",
+    "category": "Accessories",
+    "revenue": 800,
+    "status": "Completed"
+  },
+  {
+    "id": 1081,
+    "date": "2026-11-21",
+    "product": "Desk",
+    "category": "Furniture",
+    "revenue": 34000,
+    "status": "Completed"
+  },
+  {
+    "id": 1082,
+    "date": "2026-11-22",
+    "product": "Water Bottle",
+    "category": "Accessories",
+    "revenue": 1600,
+    "status": "Completed"
+  },
+  {
+    "id": 1083,
+    "date": "2026-11-23",
+    "product": "Office Chair",
+    "category": "Furniture",
+    "revenue": 18000,
+    "status": "Completed"
+  },
+  {
+    "id": 1084,
+    "date": "2026-11-24",
+    "product": "Jacket",
+    "category": "Fashion",
+    "revenue": 7000,
+    "status": "Completed"
+  },
+  {
+    "id": 1085,
+    "date": "2026-11-25",
+    "product": "Keyboard",
+    "category": "Electronics",
+    "revenue": 2500,
+    "status": "Completed"
+  },
+  {
+    "id": 1086,
+    "date": "2026-11-26",
+    "product": "Jacket",
+    "category": "Fashion",
+    "revenue": 15000,
+    "status": "Pending"
+  },
+  {
+    "id": 1087,
+    "date": "2026-11-27",
+    "product": "Keyboard",
+    "category": "Electronics",
+    "revenue": 6500,
+    "status": "Completed"
+  },
+  {
+    "id": 1088,
+    "date": "2026-11-28",
+    "product": "T-Shirt",
+    "category": "Fashion",
+    "revenue": 2500,
+    "status": "Completed"
+  },
+  {
+    "id": 1089,
+    "date": "2026-11-29",
+    "product": "Monitor",
+    "category": "Electronics",
+    "revenue": 25000,
+    "status": "Cancelled"
+  },
+  {
+    "id": 1090,
+    "date": "2026-11-30",
+    "product": "Backpack",
+    "category": "Fashion",
+    "revenue": 6500,
+    "status": "Completed"
+  },
+  {
+    "id": 1091,
+    "date": "2026-11-01",
+    "product": "Monitor",
+    "category": "Electronics",
+    "revenue": 38000,
+    "status": "Completed"
+  },
+  {
+    "id": 1092,
+    "date": "2026-11-02",
+    "product": "Backpack",
+    "category": "Fashion",
+    "revenue": 5500,
+    "status": "Pending"
+  },
+  {
+    "id": 1093,
+    "date": "2026-11-03",
+    "product": "Smart Watch",
+    "category": "Electronics",
+    "revenue": 11000,
+    "status": "Completed"
+  },
+  {
+    "id": 1094,
+    "date": "2026-11-04",
+    "product": "Running Shoes",
+    "category": "Fashion",
+    "revenue": 6500,
+    "status": "Completed"
+  },
+  {
+    "id": 1095,
+    "date": "2026-11-05",
+    "product": "Headphones",
+    "category": "Electronics",
+    "revenue": 6200,
+    "status": "Completed"
+  },
+  {
+    "id": 1096,
+    "date": "2026-11-06",
+    "product": "Running Shoes",
+    "category": "Fashion",
+    "revenue": 9500,
+    "status": "Completed"
+  },
+  {
+    "id": 1097,
+    "date": "2026-11-07",
+    "product": "Headphones",
+    "category": "Electronics",
+    "revenue": 4500,
+    "status": "Completed"
+  },
+  {
+    "id": 1098,
+    "date": "2026-11-08",
+    "product": "Sofa",
+    "category": "Furniture",
+    "revenue": 48000,
+    "status": "Completed"
+  },
+  {
+    "id": 1099,
+    "date": "2026-11-09",
+    "product": "Laptop",
+    "category": "Electronics",
+    "revenue": 65000,
+    "status": "Completed"
+  },
+  {
+    "id": 1100,
+    "date": "2026-11-10",
+    "product": "Bookshelf",
+    "category": "Furniture",
+    "revenue": 23000,
+    "status": "Completed"
+  }
+]
