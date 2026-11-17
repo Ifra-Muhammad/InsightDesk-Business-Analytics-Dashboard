@@ -3,110 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="InsightDesk - Interactive Business Analytics Dashboard">
-    <title>InsightDesk Business Analytics</title>
-    <link rel="stylesheet" href="./style.css">
+    <title>InsightDesk | Business Analytics</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="dashboard">
+<div class="dashboard">
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <span class="logo-icon">I</span>
-                <h2>InsightDesk</h2>
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">I</div>
+            <h2>InsightDesk</h2>
+        </div>
+
+        <nav>
+            <a href="#dashboard" class="nav-link active">Dashboard</a>
+            <a href="#analytics" class="nav-link">Analytics</a>
+            <a href="#transactions" class="nav-link">Transactions</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            Business Analytics<br>
+            <span>Internship Project 2026</span>
+        </div>
+    </aside>
+
+    <main class="main-content" id="dashboard">
+
+        <header class="topbar">
+            <div>
+                <p class="welcome">WELCOME BACK</p>
+                <h1>Business Overview</h1>
             </div>
 
-            <nav>
-                <a href="#" class="nav-link active">Dashboard</a>
-                <a href="#analytics" class="nav-link">Analytics</a>
-                <a href="#transactions" class="nav-link">Transactions</a>
-            </nav>
-
-            <div class="sidebar-bottom">
-                <p>Business Analytics</p>
-                <span>Version 1.0</span>
+            <div class="user-profile">
+                <div class="avatar">IM</div>
+                <span>Admin</span>
             </div>
-        </aside>
+        </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
+        <section class="intro">
+            <div>
+                <h2>Sales Dashboard</h2>
+                <p>Monitor your business performance and transactions.</p>
+            </div>
+            <div class="date-label">November 2026</div>
+        </section>
 
-            <header class="topbar">
+        <section class="kpi-grid">
+            <article class="kpi-card">
+                <p>Total Revenue</p>
+                <h2 id="totalRevenue">Loading...</h2>
+                <span>Revenue from completed orders</span>
+            </article>
+
+            <article class="kpi-card">
+                <p>Total Orders</p>
+                <h2 id="totalOrders">Loading...</h2>
+                <span>All valid transactions</span>
+            </article>
+
+            <article class="kpi-card">
+                <p>Average Order Value</p>
+                <h2 id="averageOrder">Loading...</h2>
+                <span>Revenue divided by completed orders</span>
+            </article>
+
+            <article class="kpi-card">
+                <p>Completed Orders</p>
+                <h2 id="completedOrders">Loading...</h2>
+                <span>Successfully completed orders</span>
+            </article>
+        </section>
+
+        <section class="content-section" id="analytics">
+            <h2>Analytics Overview</h2>
+            <p>Interactive charts will be added in the next development stage.</p>
+        </section>
+
+        <section class="transactions-section" id="transactions">
+
+            <div class="section-heading">
                 <div>
-                    <p class="welcome">Welcome back!</p>
-                    <h1>Business Overview</h1>
+                    <h2>Transactions</h2>
+                    <p>Search, sort and explore your sales records.</p>
                 </div>
+            </div>
 
-                <div class="user-profile">
-                    <div class="avatar">ID</div>
-                    <span>Admin</span>
-                </div>
-            </header>
+            <div class="table-toolbar">
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search by product, ID, date or status..."
+                    aria-label="Search transactions"
+                >
 
-            <!-- Page Introduction -->
-            <section class="intro">
-                <div>
-                    <h2>Sales Dashboard</h2>
-                    <p>Track your business performance and sales insights.</p>
-                </div>
-                <span class="date-label">November 2026</span>
-            </section>
+                <span id="recordCount">Loading transactions...</span>
+            </div>
 
-            <!-- KPI Cards -->
-            <section class="kpi-grid">
-
-                <article class="kpi-card">
-                    <p>Total Revenue</p>
-                    <h2 id="totalRevenue">Loading...</h2>
-                    <span>Revenue from all orders</span>
-                </article>
-
-                <article class="kpi-card">
-                    <p>Total Orders</p>
-                    <h2 id="totalOrders">Loading...</h2>
-                    <span>All recorded transactions</span>
-                </article>
-
-                <article class="kpi-card">
-                    <p>Average Order Value</p>
-                    <h2 id="averageOrder">Loading...</h2>
-                    <span>Revenue divided by orders</span>
-                </article>
-
-                <article class="kpi-card">
-                    <p>Completed Orders</p>
-                    <h2 id="completedOrders">Loading...</h2>
-                    <span>Successfully completed orders</span>
-                </article>
-
-            </section>
-
-            <!-- Analytics Placeholder -->
-            <section class="content-section" id="analytics">
-                <h2>Analytics Overview</h2>
-                <p>Sales charts and visual insights will be added here.</p>
-            </section>
-
-            <!-- Transactions Placeholder -->
-            <section class="content-section" id="transactions">
-                <h2>Recent Transactions</h2>
-                <p>Transaction table will be added in the next stage.</p>
-            </section>
-
-            <!-- Data Status -->
-            <p id="dataStatus" class="data-status" aria-live="polite">
-                Loading sales data...
+            <p id="tableStatus" class="table-status" aria-live="polite">
+                Loading transactions...
             </p>
 
-            <footer>
-                <p>© 2026 InsightDesk. All rights reserved.</p>
-            </footer>
+            <div class="table-wrapper" id="tableWrapper" hidden>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <button class="sort-button" data-sort="id">
+                                    Order ID ↕
+                                </button>
+                            </th>
+                            <th>
+                                <button class="sort-button" data-sort="date">
+                                    Date ↕
+                                </button>
+                            </th>
+                            <th>
+                                <button class="sort-button" data-sort="product">
+                                    Product ↕
+                                </button>
+                            </th>
+                            <th>
+                                <button class="sort-button" data-sort="category">
+                                    Category ↕
+                                </button>
+                            </th>
+                            <th>
+                                <button class="sort-button" data-sort="revenue">
+                                    Revenue ↕
+                                </button>
+                            </th>
+                            <th>
+                                <button class="sort-button" data-sort="status">
+                                    Status ↕
+                                </button>
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-        </main>
+                    <tbody id="transactionsBody"></tbody>
+                </table>
+            </div>
+
+            <div class="pagination" id="pagination" hidden>
+                <button id="prevButton">Previous</button>
+                <span id="pageInfo">Page 1 of 1</span>
+                <button id="nextButton">Next</button>
+            </div>
+
+        </section>
+
+        <p id="dataStatus" class="data-status" aria-live="polite">
+            Loading sales data...
+        </p>
+
+        <footer>
+            © 2026 InsightDesk. Business Analytics Dashboard.
+        </footer>
+
+    </main>
+</div>
+
+<dialog id="detailsDialog" class="details-dialog">
+    <div class="dialog-header">
+        <h2>Transaction Details</h2>
+        <button id="closeDialog" aria-label="Close details">×</button>
     </div>
 
-    <script src="script.js"></script>
+    <div id="detailsContent" class="details-content"></div>
+</dialog>
+
+<script src="script.js"></script>
 </body>
 </html>
