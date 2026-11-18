@@ -1,9 +1,20 @@
+
+// InsightDesk - Application Setup
+
 // KPI Elements
 const totalRevenue = document.querySelector("#totalRevenue");
 const totalOrders = document.querySelector("#totalOrders");
 const averageOrder = document.querySelector("#averageOrder");
 const completedOrders = document.querySelector("#completedOrders");
 const dataStatus = document.querySelector("#dataStatus");
+
+// Filter Elements
+const startDate = document.querySelector("#startDate");
+const endDate = document.querySelector("#endDate");
+const categoryFilter = document.querySelector("#categoryFilter");
+const statusFilter = document.querySelector("#statusFilter");
+const resetFilters = document.querySelector("#resetFilters");
+const filterStatus = document.querySelector("#filterStatus");
 
 // Table Elements
 const searchInput = document.querySelector("#searchInput");
@@ -22,6 +33,10 @@ const detailsDialog = document.querySelector("#detailsDialog");
 const detailsContent = document.querySelector("#detailsContent");
 const closeDialog = document.querySelector("#closeDialog");
 
+// Chart Elements
+const revenueCanvas = document.querySelector("#revenueChart");
+const statusCanvas = document.querySelector("#statusChart");
+
 // Settings
 const itemsPerPage = 10;
 
@@ -38,7 +53,12 @@ let searchTerm = "";
 let sortField = "id";
 let sortDirection = "asc";
 
-// Validate Records
+let revenueChart = null;
+let statusChart = null;
+
+
+//   Validate Records
+
 function isValidRecord(record) {
     return (
         record &&
@@ -46,14 +66,18 @@ function isValidRecord(record) {
         typeof record.date === "string" &&
         !Number.isNaN(Date.parse(record.date)) &&
         typeof record.product === "string" &&
+        record.product.trim() !== "" &&
         typeof record.category === "string" &&
+        record.category.trim() !== "" &&
         Number.isFinite(record.revenue) &&
         record.revenue >= 0 &&
         ["Completed", "Pending", "Cancelled"].includes(record.status)
     );
 }
 
-// Load JSON Data
+
+//   Load JSON Data
+
 async function loadSalesData() {
     try {
         dataStatus.textContent = "Loading sales data...";
@@ -77,8 +101,9 @@ async function loadSalesData() {
             throw new Error("No valid sales records found.");
         }
 
-        updateKPIs();
-        renderTransactions();
+        populateCategoryFilter();
+
+        updateDashboard();
 
         dataStatus.classList.remove("error");
         dataStatus.textContent =
@@ -103,15 +128,95 @@ async function loadSalesData() {
         tableWrapper.hidden = true;
         pagination.hidden = true;
         recordCount.textContent = "0 records";
+
         tableStatus.classList.add("error");
         tableStatus.textContent =
             "Unable to load transactions. Please try again.";
+
+        filterStatus.textContent = "Sales data is unavailable.";
     }
 }
 
-// Calculate KPIs
-function updateKPIs() {
-    const completed = salesData.filter(
+
+/* Populate Category Filter*/
+
+function populateCategoryFilter() {
+    const categories = [
+        ...new Set(salesData.map(order => order.category))
+    ].sort();
+
+    categories.forEach(category => {
+        const option = document.createElement("option");
+
+        option.value = category;
+        option.textContent = category;
+
+        categoryFilter.appendChild(option);
+    });
+}
+
+
+
+// Get Filtered Records
+
+function getFilteredRecords() {
+    const selectedStartDate = startDate.value;
+    const selectedEndDate = endDate.value;
+    const selectedCategory = categoryFilter.value;
+    const selectedStatus = statusFilter.value;
+
+    return salesData.filter(order => {
+
+        const matchesStartDate =
+            !selectedStartDate || order.date >= selectedStartDate;
+
+        const matchesEndDate =
+            !selectedEndDate || order.date <= selectedEndDate;
+
+        const matchesCategory =
+            !selectedCategory || order.category === selectedCategory;
+
+        const matchesStatus =
+            !selectedStatus || order.status === selectedStatus;
+
+        const searchableText = [
+            order.id,
+            order.date,
+            order.product,
+            order.category,
+            order.status,
+            order.revenue
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = searchableText.includes(searchTerm);
+
+        return (
+            matchesStartDate &&
+            matchesEndDate &&
+            matchesCategory &&
+            matchesStatus &&
+            matchesSearch
+        );
+    });
+}
+
+
+//   Update Complete Dashboard
+
+function updateDashboard() {
+    const filteredRecords = getFilteredRecords();
+
+    updateKPIs(filteredRecords);
+    updateCharts(filteredRecords);
+    updateFilterStatus(filteredRecords);
+    renderTransactions(filteredRecords);
+}
+
+
+//   Calculate KPIs
+
+function updateKPIs(records) {
+    const completed = records.filter(
         order => order.status === "Completed"
     );
 
@@ -125,27 +230,201 @@ function updateKPIs() {
         : 0;
 
     totalRevenue.textContent = currencyFormatter.format(revenue);
-    totalOrders.textContent = salesData.length;
+    totalOrders.textContent = records.length;
     averageOrder.textContent = currencyFormatter.format(average);
     completedOrders.textContent = completed.length;
 }
 
-// Search Records
-function getFilteredRecords() {
-    return salesData.filter(order => {
-        const searchableText = [
-            order.id,
-            order.date,
-            order.product,
-            order.category,
-            order.status
-        ].join(" ").toLowerCase();
 
-        return searchableText.includes(searchTerm);
+//   Update Filter Status
+
+function updateFilterStatus(records) {
+    const hasDateError =
+        startDate.value &&
+        endDate.value &&
+        startDate.value > endDate.value;
+
+    if (hasDateError) {
+        filterStatus.textContent =
+            "Start date cannot be later than end date.";
+        return;
+    }
+
+    filterStatus.textContent =
+        `Showing ${records.length} of ${salesData.length} matching transactions.`;
+}
+
+
+//   Create Revenue Chart
+
+function createRevenueChart(records) {
+    if (!revenueCanvas || typeof Chart === "undefined") {
+        return;
+    }
+
+    const completed = records.filter(
+        order => order.status === "Completed"
+    );
+
+    const revenueByDate = {};
+
+    completed.forEach(order => {
+        if (!revenueByDate[order.date]) {
+            revenueByDate[order.date] = 0;
+        }
+
+        revenueByDate[order.date] += order.revenue;
+    });
+
+    const dates = Object.keys(revenueByDate).sort();
+
+    const revenues = dates.map(date => revenueByDate[date]);
+
+    if (revenueChart) {
+        revenueChart.destroy();
+    }
+
+    revenueChart = new Chart(revenueCanvas, {
+        type: "line",
+
+        data: {
+            labels: dates,
+
+            datasets: [{
+                label: "Completed Revenue",
+                data: revenues,
+                borderColor: "#477d6b",
+                backgroundColor: "rgba(182, 214, 204, 0.3)",
+                borderWidth: 3,
+                fill: true,
+                tension: 0.35,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: false
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: context =>
+                            currencyFormatter.format(context.parsed.y)
+                    }
+                }
+            },
+
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "Date"
+                    },
+
+                    grid: {
+                        display: false
+                    }
+                },
+
+                y: {
+                    beginAtZero: true,
+
+                    ticks: {
+                        callback: value =>
+                            "PKR " + Number(value).toLocaleString("en-PK")
+                    }
+                }
+            }
+        }
     });
 }
 
-// Sort Records
+
+//   Create Order Status Chart
+
+function createStatusChart(records) {
+    if (!statusCanvas || typeof Chart === "undefined") {
+        return;
+    }
+
+    const statuses = ["Completed", "Pending", "Cancelled"];
+
+    const statusCounts = statuses.map(status => {
+        return records.filter(
+            order => order.status === status
+        ).length;
+    });
+
+    if (statusChart) {
+        statusChart.destroy();
+    }
+
+    statusChart = new Chart(statusCanvas, {
+        type: "doughnut",
+
+        data: {
+            labels: statuses,
+
+            datasets: [{
+                data: statusCounts,
+                backgroundColor: [
+                    "#78ad91",
+                    "#e9bd70",
+                    "#d9827c"
+                ],
+                borderWidth: 2,
+                borderColor: "#ffffff",
+                hoverOffset: 8
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    position: "bottom"
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: context => {
+                            const total = context.dataset.data.reduce(
+                                (sum, value) => sum + value,
+                                0
+                            );
+
+                            const percentage = total > 0
+                                ? ((context.parsed / total) * 100).toFixed(1)
+                                : 0;
+
+                            return `${context.label}: ${context.parsed} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+//   Update Both Charts
+
+function updateCharts(records) {
+    createRevenueChart(records);
+    createStatusChart(records);
+}
+
+
+//   Sort Records
+
 function getSortedRecords(records) {
     return [...records].sort((a, b) => {
         let first = a[sortField];
@@ -173,17 +452,18 @@ function getSortedRecords(records) {
     });
 }
 
-// Render Table
-function renderTransactions() {
-    const filteredRecords = getFilteredRecords();
-    const sortedRecords = getSortedRecords(filteredRecords);
+
+//   Render Transactions Table
+
+function renderTransactions(records) {
+    const sortedRecords = getSortedRecords(records);
 
     const totalPages = Math.ceil(
         sortedRecords.length / itemsPerPage
     );
 
     recordCount.textContent =
-        `${filteredRecords.length} transactions found`;
+        `${records.length} transactions found`;
 
     transactionsBody.replaceChildren();
 
@@ -192,15 +472,14 @@ function renderTransactions() {
         pagination.hidden = true;
 
         tableStatus.classList.remove("error");
-        tableStatus.textContent = searchTerm
-            ? "No matching transactions found."
-            : "No transactions available.";
+        tableStatus.textContent = "No matching transactions found.";
 
         return;
     }
 
     tableStatus.textContent = "";
     tableStatus.classList.remove("error");
+
     tableWrapper.hidden = false;
     pagination.hidden = false;
 
@@ -209,6 +488,7 @@ function renderTransactions() {
     }
 
     const startIndex = (currentPage - 1) * itemsPerPage;
+
     const currentRecords = sortedRecords.slice(
         startIndex,
         startIndex + itemsPerPage
@@ -247,6 +527,7 @@ function renderTransactions() {
         detailsButton.textContent = "View Details";
         detailsButton.className = "details-button";
         detailsButton.type = "button";
+
         detailsButton.addEventListener("click", () => {
             showDetails(order);
         });
@@ -263,35 +544,67 @@ function renderTransactions() {
     nextButton.disabled = currentPage === totalPages;
 }
 
-// Search Event
-searchInput.addEventListener("input", event => {
-    searchTerm = event.target.value.trim().toLowerCase();
-    currentPage = 1;
-    renderTransactions();
+
+//   Filter Events
+
+[startDate, endDate, categoryFilter, statusFilter].forEach(element => {
+    element.addEventListener("change", () => {
+        currentPage = 1;
+        updateDashboard();
+    });
 });
 
-// Sorting Events
+//Reset Filters
+resetFilters.addEventListener("click", () => {
+    startDate.value = "";
+    endDate.value = "";
+    categoryFilter.value = "";
+    statusFilter.value = "";
+    searchInput.value = "";
+
+    searchTerm = "";
+    currentPage = 1;
+
+    updateDashboard();
+});
+
+   //Search Event
+searchInput.addEventListener("input", event => {
+    searchTerm = event.target.value.trim().toLowerCase();
+
+    currentPage = 1;
+    updateDashboard();
+});
+
+
+
+ //  Sorting Events
+
+
 document.querySelectorAll(".sort-button").forEach(button => {
     button.addEventListener("click", () => {
         const selectedField = button.dataset.sort;
 
         if (sortField === selectedField) {
-            sortDirection = sortDirection === "asc" ? "desc" : "asc";
+            sortDirection =
+                sortDirection === "asc" ? "desc" : "asc";
         } else {
             sortField = selectedField;
             sortDirection = "asc";
         }
 
         currentPage = 1;
-        renderTransactions();
+        renderTransactions(getFilteredRecords());
     });
 });
 
-// Pagination Events
+
+
+  // Pagination Events
 prevButton.addEventListener("click", () => {
     if (currentPage > 1) {
         currentPage--;
-        renderTransactions();
+        renderTransactions(getFilteredRecords());
     }
 });
 
@@ -302,11 +615,13 @@ nextButton.addEventListener("click", () => {
 
     if (currentPage < totalPages) {
         currentPage++;
-        renderTransactions();
+        renderTransactions(getFilteredRecords());
     }
 });
 
-// Show Transaction Details
+
+
+  // Show Transaction Details
 function showDetails(order) {
     detailsContent.replaceChildren();
 
@@ -336,10 +651,13 @@ function showDetails(order) {
     detailsDialog.showModal();
 }
 
-// Close Dialog
+
+
+   //Close Details Dialog
+
 closeDialog.addEventListener("click", () => {
     detailsDialog.close();
 });
 
-// Start Dashboard
+  // Start Dashboard
 loadSalesData();
