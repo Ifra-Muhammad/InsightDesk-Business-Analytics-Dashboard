@@ -57,7 +57,7 @@ let revenueChart = null;
 let statusChart = null;
 
 
-//   Validate Records
+// Validate Records
 
 function isValidRecord(record) {
     return (
@@ -76,7 +76,7 @@ function isValidRecord(record) {
 }
 
 
-//   Load JSON Data
+// Load JSON Data
 
 async function loadSalesData() {
     try {
@@ -102,7 +102,6 @@ async function loadSalesData() {
         }
 
         populateCategoryFilter();
-
         updateDashboard();
 
         dataStatus.classList.remove("error");
@@ -138,12 +137,16 @@ async function loadSalesData() {
 }
 
 
-/* Populate Category Filter*/
+// Populate Category Filter
 
 function populateCategoryFilter() {
     const categories = [
         ...new Set(salesData.map(order => order.category))
     ].sort();
+
+    categoryFilter.replaceChildren(
+        new Option("All Categories", "")
+    );
 
     categories.forEach(category => {
         const option = document.createElement("option");
@@ -156,28 +159,22 @@ function populateCategoryFilter() {
 }
 
 
+// Filter Records
 
-// Get Filtered Records
-
-function getFilteredRecords() {
-    const selectedStartDate = startDate.value;
-    const selectedEndDate = endDate.value;
-    const selectedCategory = categoryFilter.value;
-    const selectedStatus = statusFilter.value;
-
-    return salesData.filter(order => {
+function filterRecords(records, filters) {
+    return records.filter(order => {
 
         const matchesStartDate =
-            !selectedStartDate || order.date >= selectedStartDate;
+            !filters.startDate || order.date >= filters.startDate;
 
         const matchesEndDate =
-            !selectedEndDate || order.date <= selectedEndDate;
+            !filters.endDate || order.date <= filters.endDate;
 
         const matchesCategory =
-            !selectedCategory || order.category === selectedCategory;
+            !filters.category || order.category === filters.category;
 
         const matchesStatus =
-            !selectedStatus || order.status === selectedStatus;
+            !filters.status || order.status === filters.status;
 
         const searchableText = [
             order.id,
@@ -188,7 +185,8 @@ function getFilteredRecords() {
             order.revenue
         ].join(" ").toLowerCase();
 
-        const matchesSearch = searchableText.includes(searchTerm);
+        const matchesSearch =
+            searchableText.includes(filters.search.toLowerCase());
 
         return (
             matchesStartDate &&
@@ -201,21 +199,22 @@ function getFilteredRecords() {
 }
 
 
-//   Update Complete Dashboard
+// Get Filtered Records
 
-function updateDashboard() {
-    const filteredRecords = getFilteredRecords();
-
-    updateKPIs(filteredRecords);
-    updateCharts(filteredRecords);
-    updateFilterStatus(filteredRecords);
-    renderTransactions(filteredRecords);
+function getFilteredRecords() {
+    return filterRecords(salesData, {
+        startDate: startDate.value,
+        endDate: endDate.value,
+        category: categoryFilter.value,
+        status: statusFilter.value,
+        search: searchTerm
+    });
 }
 
 
-//   Calculate KPIs
+// Calculate KPIs
 
-function updateKPIs(records) {
+function calculateKPIs(records) {
     const completed = records.filter(
         order => order.status === "Completed"
     );
@@ -229,14 +228,33 @@ function updateKPIs(records) {
         ? revenue / completed.length
         : 0;
 
-    totalRevenue.textContent = currencyFormatter.format(revenue);
-    totalOrders.textContent = records.length;
-    averageOrder.textContent = currencyFormatter.format(average);
-    completedOrders.textContent = completed.length;
+    return {
+        totalOrders: records.length,
+        completedOrders: completed.length,
+        totalRevenue: revenue,
+        averageOrder: average
+    };
 }
 
 
-//   Update Filter Status
+// Update KPIs
+
+function updateKPIs(records) {
+    const kpis = calculateKPIs(records);
+
+    totalRevenue.textContent =
+        currencyFormatter.format(kpis.totalRevenue);
+
+    totalOrders.textContent = kpis.totalOrders;
+
+    averageOrder.textContent =
+        currencyFormatter.format(kpis.averageOrder);
+
+    completedOrders.textContent = kpis.completedOrders;
+}
+
+
+// Update Filter Status
 
 function updateFilterStatus(records) {
     const hasDateError =
@@ -255,7 +273,7 @@ function updateFilterStatus(records) {
 }
 
 
-//   Create Revenue Chart
+// Create Revenue Chart
 
 function createRevenueChart(records) {
     if (!revenueCanvas || typeof Chart === "undefined") {
@@ -346,7 +364,7 @@ function createRevenueChart(records) {
 }
 
 
-//   Create Order Status Chart
+// Create Order Status Chart
 
 function createStatusChart(records) {
     if (!statusCanvas || typeof Chart === "undefined") {
@@ -415,7 +433,7 @@ function createStatusChart(records) {
 }
 
 
-//   Update Both Charts
+// Update Both Charts
 
 function updateCharts(records) {
     createRevenueChart(records);
@@ -423,7 +441,19 @@ function updateCharts(records) {
 }
 
 
-//   Sort Records
+// Update Complete Dashboard
+
+function updateDashboard() {
+    const filteredRecords = getFilteredRecords();
+
+    updateKPIs(filteredRecords);
+    updateCharts(filteredRecords);
+    updateFilterStatus(filteredRecords);
+    renderTransactions(filteredRecords);
+}
+
+
+// Sort Records
 
 function getSortedRecords(records) {
     return [...records].sort((a, b) => {
@@ -453,7 +483,7 @@ function getSortedRecords(records) {
 }
 
 
-//   Render Transactions Table
+// Render Transactions Table
 
 function renderTransactions(records) {
     const sortedRecords = getSortedRecords(records);
@@ -474,6 +504,7 @@ function renderTransactions(records) {
         tableStatus.classList.remove("error");
         tableStatus.textContent = "No matching transactions found.";
 
+        pageInfo.textContent = "Page 0 of 0";
         return;
     }
 
@@ -545,7 +576,7 @@ function renderTransactions(records) {
 }
 
 
-//   Filter Events
+// Filter Events
 
 [startDate, endDate, categoryFilter, statusFilter].forEach(element => {
     element.addEventListener("change", () => {
@@ -554,7 +585,9 @@ function renderTransactions(records) {
     });
 });
 
-//Reset Filters
+
+// Reset Filters
+
 resetFilters.addEventListener("click", () => {
     startDate.value = "";
     endDate.value = "";
@@ -568,7 +601,9 @@ resetFilters.addEventListener("click", () => {
     updateDashboard();
 });
 
-   //Search Event
+
+// Search Event
+
 searchInput.addEventListener("input", event => {
     searchTerm = event.target.value.trim().toLowerCase();
 
@@ -577,9 +612,7 @@ searchInput.addEventListener("input", event => {
 });
 
 
-
- //  Sorting Events
-
+// Sorting Events
 
 document.querySelectorAll(".sort-button").forEach(button => {
     button.addEventListener("click", () => {
@@ -599,8 +632,8 @@ document.querySelectorAll(".sort-button").forEach(button => {
 });
 
 
+// Pagination Events
 
-  // Pagination Events
 prevButton.addEventListener("click", () => {
     if (currentPage > 1) {
         currentPage--;
@@ -620,8 +653,8 @@ nextButton.addEventListener("click", () => {
 });
 
 
+// Show Transaction Details
 
-  // Show Transaction Details
 function showDetails(order) {
     detailsContent.replaceChildren();
 
@@ -652,12 +685,123 @@ function showDetails(order) {
 }
 
 
-
-   //Close Details Dialog
+// Close Details Dialog
 
 closeDialog.addEventListener("click", () => {
     detailsDialog.close();
 });
 
-  // Start Dashboard
+
+// Automated Tests
+
+function runDashboardTests() {
+    console.group("InsightDesk - Dashboard Tests");
+
+    let passed = 0;
+    let failed = 0;
+
+    function test(testName, condition) {
+        if (condition) {
+            console.log(`PASS: ${testName}`);
+            passed++;
+        } else {
+            console.error(`FAIL: ${testName}`);
+            failed++;
+        }
+    }
+
+    // Sample data used only for testing
+    const sampleRecords = [
+        {
+            id: 1,
+            date: "2026-11-01",
+            product: "Laptop",
+            category: "Electronics",
+            revenue: 1000,
+            status: "Completed"
+        },
+        {
+            id: 2,
+            date: "2026-11-02",
+            product: "Phone",
+            category: "Electronics",
+            revenue: 300,
+            status: "Pending"
+        },
+        {
+            id: 3,
+            date: "2026-11-03",
+            product: "Chair",
+            category: "Furniture",
+            revenue: 500,
+            status: "Completed"
+        },
+        {
+            id: 4,
+            date: "2026-11-04",
+            product: "Table",
+            category: "Furniture",
+            revenue: 200,
+            status: "Cancelled"
+        }
+    ];
+
+    // Test 1: KPI Calculation
+    const kpis = calculateKPIs(sampleRecords);
+
+    test(
+        "KPI calculation",
+        kpis.totalOrders === 4 &&
+        kpis.completedOrders === 2 &&
+        kpis.totalRevenue === 1500 &&
+        kpis.averageOrder === 750
+    );
+
+    // Test 2: Category Filter
+    const electronicsRecords = filterRecords(sampleRecords, {
+        startDate: "",
+        endDate: "",
+        category: "Electronics",
+        status: "",
+        search: ""
+    });
+
+    test(
+        "Category filter",
+        electronicsRecords.length === 2 &&
+        electronicsRecords.every(
+            order => order.category === "Electronics"
+        )
+    );
+
+    // Test 3: Combined Category and Status Filter
+    const completedElectronics = filterRecords(sampleRecords, {
+        startDate: "",
+        endDate: "",
+        category: "Electronics",
+        status: "Completed",
+        search: ""
+    });
+
+    test(
+        "Combined category and status filter",
+        completedElectronics.length === 1 &&
+        completedElectronics[0].product === "Laptop" &&
+        completedElectronics[0].status === "Completed"
+    );
+
+    console.log(`Test Summary: ${passed} passed, ${failed} failed.`);
+    console.groupEnd();
+
+    return {
+        passed,
+        failed,
+        total: passed + failed
+    };
+}
+
+
+// Run Tests and Start Dashboard
+
+runDashboardTests();
 loadSalesData();
