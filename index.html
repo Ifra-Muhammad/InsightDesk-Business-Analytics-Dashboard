@@ -9,19 +9,19 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js" defer></script>
 </head>
 <body>
 
 <div class="dashboard">
 
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="logo">
             <div class="logo-icon">I</div>
             <h2>InsightDesk</h2>
         </div>
 
-        <nav>
+        <nav aria-label="Main navigation">
             <a href="#dashboard" class="nav-link active">Dashboard</a>
             <a href="#analytics" class="nav-link">Analytics</a>
             <a href="#transactions" class="nav-link">Transactions</a>
@@ -33,6 +33,7 @@
         </div>
     </aside>
 
+    <!-- Main Dashboard -->
     <main class="main-content" id="dashboard">
 
         <header class="topbar">
@@ -56,10 +57,11 @@
         </section>
 
         <!-- Filters -->
-        <section class="filters-section">
+        <section class="filters-section" aria-labelledby="filtersTitle">
+
             <div class="filters-heading">
                 <div>
-                    <h2>Filter Sales Data</h2>
+                    <h2 id="filtersTitle">Filter Sales Data</h2>
                     <p>Choose filters to explore your sales performance.</p>
                 </div>
 
@@ -69,6 +71,7 @@
             </div>
 
             <div class="filters-grid">
+
                 <div class="filter-group">
                     <label for="startDate">Start Date</label>
                     <input type="date" id="startDate">
@@ -95,15 +98,18 @@
                         <option value="Cancelled">Cancelled</option>
                     </select>
                 </div>
+
             </div>
 
             <p id="filterStatus" class="filter-status" aria-live="polite">
                 Showing all sales records.
             </p>
+
         </section>
 
         <!-- KPI Cards -->
-        <section class="kpi-grid">
+        <section class="kpi-grid" aria-label="Sales performance indicators">
+
             <article class="kpi-card">
                 <p>Total Revenue</p>
                 <h2 id="totalRevenue">Loading...</h2>
@@ -127,48 +133,66 @@
                 <h2 id="completedOrders">Loading...</h2>
                 <span>Successfully completed orders</span>
             </article>
+
         </section>
 
         <!-- Analytics Charts -->
-        <section class="analytics-section" id="analytics">
+        <section class="analytics-section" id="analytics"
+                 aria-labelledby="analyticsTitle">
+
             <div class="analytics-heading">
                 <div>
-                    <h2>Analytics Overview</h2>
+                    <h2 id="analyticsTitle">Analytics Overview</h2>
                     <p>Explore revenue trends and order status distribution.</p>
                 </div>
             </div>
 
             <div class="charts-grid">
+
                 <article class="chart-card">
                     <h3>Revenue Trend</h3>
-                    <p>Completed revenue by date</p>
+
+                    <p id="revenueDescription">
+                        Line chart showing completed revenue over time.
+                    </p>
+
                     <div class="chart-container">
-                        <canvas id="revenueChart"
+                        <canvas
+                            id="revenueChart"
                             role="img"
-                            aria-label="Line chart showing completed revenue by date">
+                            aria-label="Line chart showing completed revenue by date"
+                            aria-describedby="revenueDescription">
                         </canvas>
                     </div>
                 </article>
 
                 <article class="chart-card">
                     <h3>Order Status</h3>
-                    <p>Distribution of filtered orders</p>
+
+                    <p id="statusDescription">
+                        Doughnut chart showing the distribution of filtered orders by status.
+                    </p>
+
                     <div class="chart-container doughnut-container">
-                        <canvas id="statusChart"
+                        <canvas
+                            id="statusChart"
                             role="img"
-                            aria-label="Doughnut chart showing order status distribution">
+                            aria-label="Doughnut chart showing order status distribution"
+                            aria-describedby="statusDescription">
                         </canvas>
                     </div>
                 </article>
+
             </div>
         </section>
 
         <!-- Transactions -->
-        <section class="transactions-section" id="transactions">
+        <section class="transactions-section" id="transactions"
+                 aria-labelledby="transactionsTitle">
 
             <div class="section-heading">
                 <div>
-                    <h2>Transactions</h2>
+                    <h2 id="transactionsTitle">Transactions</h2>
                     <p>Search, sort and explore your sales records.</p>
                 </div>
             </div>
@@ -181,24 +205,73 @@
                     aria-label="Search transactions"
                 >
 
-                <span id="recordCount">Loading transactions...</span>
+                <span id="recordCount" aria-live="polite">
+                    Loading transactions...
+                </span>
             </div>
 
             <p id="tableStatus" class="table-status" aria-live="polite">
                 Loading transactions...
             </p>
 
-            <div class="table-wrapper" id="tableWrapper" hidden>
+            <div
+                class="table-wrapper"
+                id="tableWrapper"
+                tabindex="0"
+                role="region"
+                aria-label="Scrollable transactions table"
+                hidden>
+
                 <table>
+                    <caption class="visually-hidden">
+                        Sales transactions with order details and status
+                    </caption>
+
                     <thead>
                         <tr>
-                            <th><button class="sort-button" data-sort="id">Order ID ↕</button></th>
-                            <th><button class="sort-button" data-sort="date">Date ↕</button></th>
-                            <th><button class="sort-button" data-sort="product">Product ↕</button></th>
-                            <th><button class="sort-button" data-sort="category">Category ↕</button></th>
-                            <th><button class="sort-button" data-sort="revenue">Revenue ↕</button></th>
-                            <th><button class="sort-button" data-sort="status">Status ↕</button></th>
-                            <th>Action</th>
+                            <th scope="col">
+                                <button type="button" class="sort-button"
+                                    data-sort="id" aria-label="Sort by order ID">
+                                    Order ID ↕
+                                </button>
+                            </th>
+
+                            <th scope="col">
+                                <button type="button" class="sort-button"
+                                    data-sort="date" aria-label="Sort by date">
+                                    Date ↕
+                                </button>
+                            </th>
+
+                            <th scope="col">
+                                <button type="button" class="sort-button"
+                                    data-sort="product" aria-label="Sort by product">
+                                    Product ↕
+                                </button>
+                            </th>
+
+                            <th scope="col">
+                                <button type="button" class="sort-button"
+                                    data-sort="category" aria-label="Sort by category">
+                                    Category ↕
+                                </button>
+                            </th>
+
+                            <th scope="col">
+                                <button type="button" class="sort-button"
+                                    data-sort="revenue" aria-label="Sort by revenue">
+                                    Revenue ↕
+                                </button>
+                            </th>
+
+                            <th scope="col">
+                                <button type="button" class="sort-button"
+                                    data-sort="status" aria-label="Sort by status">
+                                    Status ↕
+                                </button>
+                            </th>
+
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
 
@@ -206,9 +279,14 @@
                 </table>
             </div>
 
+            <!-- Pagination -->
             <div class="pagination" id="pagination" hidden>
                 <button type="button" id="prevButton">Previous</button>
-                <span id="pageInfo">Page 1 of 1</span>
+
+                <span id="pageInfo" aria-live="polite">
+                    Page 1 of 1
+                </span>
+
                 <button type="button" id="nextButton">Next</button>
             </div>
 
@@ -226,14 +304,27 @@
 </div>
 
 <!-- Transaction Details Dialog -->
-<dialog id="detailsDialog" class="details-dialog">
+<dialog
+    id="detailsDialog"
+    class="details-dialog"
+    aria-labelledby="dialogTitle">
+
     <div class="dialog-header">
-        <h2>Transaction Details</h2>
-        <button type="button" id="closeDialog" aria-label="Close details">×</button>
+        <h2 id="dialogTitle">Transaction Details</h2>
+
+        <button
+            type="button"
+            id="closeDialog"
+            aria-label="Close transaction details">
+            ×
+        </button>
     </div>
 
     <div id="detailsContent" class="details-content"></div>
+
 </dialog>
 
 </body>
+    <script src="script.js" defer></script>
+
 </html>
