@@ -47,7 +47,7 @@ If there are no completed orders, Average Order Value is displayed as zero.
 ### 1. Clone the Repository
 
 ```bash
-git clone YOUR_REPOSITORY_URL
+https://github.com/Ifra-Muhammad/InsightDesk-Business-Analytics-Dashboard
 ```
 
 ### 2. Open the Project
