@@ -1,4 +1,3 @@
-
 // InsightDesk - Application Setup
 
 // KPI Elements
@@ -36,6 +35,11 @@ const closeDialog = document.querySelector("#closeDialog");
 // Chart Elements
 const revenueCanvas = document.querySelector("#revenueChart");
 const statusCanvas = document.querySelector("#statusChart");
+
+// Friday - Export and Share Elements
+const exportCSVButton = document.querySelector("#exportCSV");
+const copyFilterLinkButton = document.querySelector("#copyFilterLink");
+const exportStatus = document.querySelector("#exportStatus");
 
 // Settings
 const itemsPerPage = 10;
@@ -102,6 +106,10 @@ async function loadSalesData() {
         }
 
         populateCategoryFilter();
+
+        // Restore filters saved in the URL
+        restoreFiltersFromURL();
+
         updateDashboard();
 
         dataStatus.classList.remove("error");
@@ -446,6 +454,9 @@ function updateCharts(records) {
 function updateDashboard() {
     const filteredRecords = getFilteredRecords();
 
+    // Update URL whenever filters change
+    updateURLWithFilters();
+
     updateKPIs(filteredRecords);
     updateCharts(filteredRecords);
     updateFilterStatus(filteredRecords);
@@ -690,6 +701,204 @@ function showDetails(order) {
 closeDialog.addEventListener("click", () => {
     detailsDialog.close();
 });
+
+
+// Friday - Get Current Filter Values
+
+function getCurrentFilters() {
+    return {
+        startDate: startDate.value,
+        endDate: endDate.value,
+        category: categoryFilter.value,
+        status: statusFilter.value,
+        search: searchTerm
+    };
+}
+
+
+// Friday - Update Shareable URL
+
+function updateURLWithFilters() {
+    const url = new URL(window.location.href);
+    const filters = getCurrentFilters();
+
+    // Remove old filter parameters before adding current ones
+    ["start", "end", "category", "status", "search"].forEach(parameter => {
+        url.searchParams.delete(parameter);
+    });
+
+    if (filters.startDate) {
+        url.searchParams.set("start", filters.startDate);
+    }
+
+    if (filters.endDate) {
+        url.searchParams.set("end", filters.endDate);
+    }
+
+    if (filters.category) {
+        url.searchParams.set("category", filters.category);
+    }
+
+    if (filters.status) {
+        url.searchParams.set("status", filters.status);
+    }
+
+    if (filters.search) {
+        url.searchParams.set("search", filters.search);
+    }
+
+    window.history.replaceState(null, "", url);
+}
+
+
+// Friday - Restore Filters from URL
+
+function restoreFiltersFromURL() {
+    const params = new URLSearchParams(window.location.search);
+
+    const urlStartDate = params.get("start");
+    const urlEndDate = params.get("end");
+    const urlCategory = params.get("category");
+    const urlStatus = params.get("status");
+    const urlSearch = params.get("search");
+
+    // Apply only valid date values
+    if (urlStartDate && /^\d{4}-\d{2}-\d{2}$/.test(urlStartDate)) {
+        startDate.value = urlStartDate;
+    }
+
+    if (urlEndDate && /^\d{4}-\d{2}-\d{2}$/.test(urlEndDate)) {
+        endDate.value = urlEndDate;
+    }
+
+    // Category must exist in available options
+    const availableCategories = Array.from(categoryFilter.options)
+        .map(option => option.value);
+
+    if (urlCategory && availableCategories.includes(urlCategory)) {
+        categoryFilter.value = urlCategory;
+    }
+
+    // Status must be one of the supported values
+    const availableStatuses = ["Completed", "Pending", "Cancelled"];
+
+    if (urlStatus && availableStatuses.includes(urlStatus)) {
+        statusFilter.value = urlStatus;
+    }
+
+    if (urlSearch) {
+        searchInput.value = urlSearch;
+        searchTerm = urlSearch.trim().toLowerCase();
+    }
+}
+
+
+// Friday - Export Filtered Records as CSV
+
+function exportFilteredRecords() {
+    const records = getFilteredRecords();
+
+    if (records.length === 0) {
+        if (exportStatus) {
+            exportStatus.textContent =
+                "There are no matching records to export.";
+        }
+        return;
+    }
+
+    const headers = [
+        "Order ID",
+        "Date",
+        "Product",
+        "Category",
+        "Revenue",
+        "Status"
+    ];
+
+    const rows = records.map(order => [
+        order.id,
+        order.date,
+        order.product,
+        order.category,
+        order.revenue,
+        order.status
+    ]);
+
+    // Escape quotes and protect spreadsheet cells from formula execution
+    function escapeCSVValue(value) {
+        let safeValue = String(value ?? "");
+
+        if (/^[=+\-@]/.test(safeValue)) {
+            safeValue = "'" + safeValue;
+        }
+
+        return '"' + safeValue.replace(/"/g, '""') + '"';
+    }
+
+    const csvContent = [
+        headers,
+        ...rows
+    ]
+        .map(row => row.map(escapeCSVValue).join(","))
+        .join("\r\n");
+
+    // BOM helps spreadsheet applications display UTF-8 text correctly
+    const blob = new Blob(["\uFEFF" + csvContent], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const downloadURL = URL.createObjectURL(blob);
+    const downloadLink = document.createElement("a");
+
+    downloadLink.href = downloadURL;
+    downloadLink.download = "insightdesk-filtered-transactions.csv";
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
+
+    URL.revokeObjectURL(downloadURL);
+
+    if (exportStatus) {
+        exportStatus.textContent =
+            `Successfully exported ${records.length} filtered transactions.`;
+    }
+}
+
+
+// Friday - Copy Shareable Filter Link
+
+async function copyFilterLink() {
+    updateURLWithFilters();
+
+    const shareableURL = window.location.href;
+
+    try {
+        await navigator.clipboard.writeText(shareableURL);
+
+        if (exportStatus) {
+            exportStatus.textContent = "Filter link copied successfully.";
+        }
+    } catch (error) {
+        console.error("Unable to copy filter link:", error);
+
+        if (exportStatus) {
+            exportStatus.textContent =
+                "Copy was blocked by the browser. You can copy the URL from the address bar.";
+        }
+    }
+}
+
+
+// Friday - Export and Share Button Events
+
+if (exportCSVButton) {
+    exportCSVButton.addEventListener("click", exportFilteredRecords);
+}
+
+if (copyFilterLinkButton) {
+    copyFilterLinkButton.addEventListener("click", copyFilterLink);
+}
 
 
 // Automated Tests
