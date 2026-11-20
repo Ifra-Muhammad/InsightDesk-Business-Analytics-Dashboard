@@ -9,7 +9,9 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
 </head>
+
 <body>
 
 <div class="dashboard">
@@ -33,6 +35,7 @@
         </div>
     </aside>
 
+
     <!-- Main Dashboard -->
     <main class="main-content" id="dashboard">
 
@@ -48,13 +51,16 @@
             </div>
         </header>
 
+
         <section class="intro">
             <div>
                 <h2>Sales Dashboard</h2>
                 <p>Monitor your business performance and transactions.</p>
             </div>
+
             <div class="date-label">November 2026</div>
         </section>
+
 
         <!-- Filters -->
         <section class="filters-section" aria-labelledby="filtersTitle">
@@ -69,6 +75,7 @@
                     Reset Filters
                 </button>
             </div>
+
 
             <div class="filters-grid">
 
@@ -107,6 +114,7 @@
 
         </section>
 
+
         <!-- KPI Cards -->
         <section class="kpi-grid" aria-label="Sales performance indicators">
 
@@ -135,6 +143,7 @@
             </article>
 
         </section>
+
 
         <!-- Analytics Charts -->
         <section class="analytics-section" id="analytics"
@@ -166,6 +175,7 @@
                     </div>
                 </article>
 
+
                 <article class="chart-card">
                     <h3>Order Status</h3>
 
@@ -186,6 +196,7 @@
             </div>
         </section>
 
+
         <!-- Transactions -->
         <section class="transactions-section" id="transactions"
                  aria-labelledby="transactionsTitle">
@@ -197,22 +208,49 @@
                 </div>
             </div>
 
+
             <div class="table-toolbar">
+
                 <input
                     type="search"
                     id="searchInput"
                     placeholder="Search by product, ID, date or status..."
-                    aria-label="Search transactions"
-                >
+                    aria-label="Search transactions">
 
                 <span id="recordCount" aria-live="polite">
                     Loading transactions...
                 </span>
+
             </div>
+
+
+            <!-- Export and Share Actions -->
+            <div class="export-actions">
+
+                <button
+                    type="button"
+                    id="exportCSV"
+                    class="reset-button">
+                    Export CSV
+                </button>
+
+                <button
+                    type="button"
+                    id="copyFilterLink"
+                    class="reset-button">
+                    Copy Filter Link
+                </button>
+
+            </div>
+
+
+            <p id="exportStatus" class="table-status" aria-live="polite"></p>
+
 
             <p id="tableStatus" class="table-status" aria-live="polite">
                 Loading transactions...
             </p>
+
 
             <div
                 class="table-wrapper"
@@ -223,78 +261,109 @@
                 hidden>
 
                 <table>
+
                     <caption class="visually-hidden">
                         Sales transactions with order details and status
                     </caption>
 
                     <thead>
                         <tr>
+
                             <th scope="col">
-                                <button type="button" class="sort-button"
-                                    data-sort="id" aria-label="Sort by order ID">
+                                <button
+                                    type="button"
+                                    class="sort-button"
+                                    data-sort="id"
+                                    aria-label="Sort by order ID">
                                     Order ID ↕
                                 </button>
                             </th>
 
                             <th scope="col">
-                                <button type="button" class="sort-button"
-                                    data-sort="date" aria-label="Sort by date">
+                                <button
+                                    type="button"
+                                    class="sort-button"
+                                    data-sort="date"
+                                    aria-label="Sort by date">
                                     Date ↕
                                 </button>
                             </th>
 
                             <th scope="col">
-                                <button type="button" class="sort-button"
-                                    data-sort="product" aria-label="Sort by product">
+                                <button
+                                    type="button"
+                                    class="sort-button"
+                                    data-sort="product"
+                                    aria-label="Sort by product">
                                     Product ↕
                                 </button>
                             </th>
 
                             <th scope="col">
-                                <button type="button" class="sort-button"
-                                    data-sort="category" aria-label="Sort by category">
+                                <button
+                                    type="button"
+                                    class="sort-button"
+                                    data-sort="category"
+                                    aria-label="Sort by category">
                                     Category ↕
                                 </button>
                             </th>
 
                             <th scope="col">
-                                <button type="button" class="sort-button"
-                                    data-sort="revenue" aria-label="Sort by revenue">
+                                <button
+                                    type="button"
+                                    class="sort-button"
+                                    data-sort="revenue"
+                                    aria-label="Sort by revenue">
                                     Revenue ↕
                                 </button>
                             </th>
 
                             <th scope="col">
-                                <button type="button" class="sort-button"
-                                    data-sort="status" aria-label="Sort by status">
+                                <button
+                                    type="button"
+                                    class="sort-button"
+                                    data-sort="status"
+                                    aria-label="Sort by status">
                                     Status ↕
                                 </button>
                             </th>
 
                             <th scope="col">Action</th>
+
                         </tr>
                     </thead>
 
                     <tbody id="transactionsBody"></tbody>
+
                 </table>
             </div>
 
+
             <!-- Pagination -->
             <div class="pagination" id="pagination" hidden>
-                <button type="button" id="prevButton">Previous</button>
+
+                <button type="button" id="prevButton">
+                    Previous
+                </button>
 
                 <span id="pageInfo" aria-live="polite">
                     Page 1 of 1
                 </span>
 
-                <button type="button" id="nextButton">Next</button>
+                <button type="button" id="nextButton">
+                    Next
+                </button>
+
             </div>
 
         </section>
 
+
         <p id="dataStatus" class="data-status" aria-live="polite">
             Loading sales data...
         </p>
+
 
         <footer>
             © 2026 InsightDesk. Business Analytics Dashboard.
@@ -303,6 +372,7 @@
     </main>
 </div>
 
+
 <!-- Transaction Details Dialog -->
 <dialog
     id="detailsDialog"
@@ -310,6 +380,7 @@
     aria-labelledby="dialogTitle">
 
     <div class="dialog-header">
+
         <h2 id="dialogTitle">Transaction Details</h2>
 
         <button
@@ -318,6 +389,7 @@
             aria-label="Close transaction details">
             ×
         </button>
+
     </div>
 
     <div id="detailsContent" class="details-content"></div>
@@ -325,6 +397,4 @@
 </dialog>
 
 </body>
-    <script src="script.js" defer></script>
-
 </html>
