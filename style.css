@@ -849,3 +849,26 @@ select:focus-visible {
         box-shadow: 0 8px 20px rgba(30, 48, 65, 0.06);
     }
 }
+
+
+/* Export and Share Actions */
+
+.export-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 15px 0;
+}
+
+.export-actions button {
+    cursor: pointer;
+}
+
+.export-actions button:hover {
+    transform: translateY(-2px);
+}
+
+.export-actions button:focus-visible {
+    outline: 3px solid #477d6b;
+    outline-offset: 3px;
+}
